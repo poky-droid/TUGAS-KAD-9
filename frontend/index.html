@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f6f3">
+  <title>LabBorrow | Laboratory lending</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="LabBorrow dashboard">
+        <span class="brand-mark">L<span>.</span></span>
+        <span><strong>LabBorrow</strong><small>LAB OPERATIONS</small></span>
+      </a>
+      <p class="nav-caption">WORKSPACE</p>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link is-active" data-view="dashboard"><span class="nav-icon">◫</span>Dashboard</button>
+        <button class="nav-link" data-view="equipment"><span class="nav-icon">▤</span>Equipment</button>
+        <button class="nav-link" data-view="borrowers"><span class="nav-icon">♙</span>Borrowers</button>
+        <button class="nav-link" data-view="borrowings"><span class="nav-icon">⇄</span>Borrowings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="lab-status"><span class="status-dot"></span><span><strong>Lab inventory</strong><small>Local session storage</small></span></div>
+        <div class="sidebar-note">University laboratory<br>Equipment desk</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="page-eyebrow">LAB OVERVIEW</p>
+          <h1 id="page-title">Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <span class="today-label" id="today-label"></span>
+          <button class="button button-primary" id="quick-create" type="button"><span aria-hidden="true">+</span> New borrowing</button>
+        </div>
+      </header>
+
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <section class="page-view is-visible" id="dashboard-view" aria-labelledby="page-title">
+        <div class="welcome-line">
+          <div><h2>Good work starts with a clear inventory.</h2><p>Here is what is happening in the lab today.</p></div>
+          <span class="live-mark"><span class="status-dot"></span> LIVE INVENTORY</span>
+        </div>
+        <div class="metric-grid" id="metric-grid">
+          <article class="metric metric-green"><span class="metric-label">EQUIPMENT TYPES</span><strong id="metric-equipment">--</strong><span>Registered in inventory</span></article>
+          <article class="metric metric-blue"><span class="metric-label">BORROWERS</span><strong id="metric-borrowers">--</strong><span>Registered students</span></article>
+          <article class="metric metric-coral"><span class="metric-label">ON LOAN</span><strong id="metric-active">--</strong><span>Active transactions</span></article>
+          <article class="metric metric-gold"><span class="metric-label">AVAILABLE UNITS</span><strong id="metric-available">--</strong><span>Ready to borrow</span></article>
+        </div>
+        <div class="dashboard-grid">
+          <section class="panel recent-panel">
+            <div class="section-heading"><div><p class="eyebrow">LATEST ACTIVITY</p><h2>Recent borrowings</h2></div><button class="text-button" data-open-view="borrowings" type="button">View all <span aria-hidden="true">→</span></button></div>
+            <div class="table-wrap"><table><thead><tr><th>Borrower</th><th>Equipment</th><th>Borrowed</th><th>Status</th></tr></thead><tbody id="recent-table"></tbody></table></div>
+          </section>
+          <section class="panel stock-panel">
+            <div class="section-heading"><div><p class="eyebrow">INVENTORY CHECK</p><h2>Stock at a glance</h2></div><button class="icon-link" data-open-view="equipment" aria-label="Open equipment" type="button">↗</button></div>
+            <div id="stock-list" class="stock-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="page-view" id="equipment-view" aria-labelledby="page-title" hidden>
+        <div class="list-toolbar"><p>Track equipment, condition, and available stock.</p><div class="toolbar-actions"><label class="search-box"><span aria-hidden="true">⌕</span><input id="equipment-search" type="search" placeholder="Search equipment" aria-label="Search equipment"></label><button class="button button-primary" data-create="equipment" type="button"><span aria-hidden="true">+</span> Add equipment</button></div></div>
+        <section class="panel table-panel"><div class="section-heading"><div><p class="eyebrow">INVENTORY</p><h2>Equipment list</h2></div><span class="count-label" id="equipment-count">0 items</span></div><div class="table-wrap"><table><thead><tr><th>Equipment</th><th>Category</th><th>Condition</th><th>Available</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="equipment-table"></tbody></table></div></section>
+      </section>
+
+      <section class="page-view" id="borrowers-view" aria-labelledby="page-title" hidden>
+        <div class="list-toolbar"><p>Maintain student records for borrowing access.</p><div class="toolbar-actions"><label class="search-box"><span aria-hidden="true">⌕</span><input id="borrowers-search" type="search" placeholder="Search borrowers" aria-label="Search borrowers"></label><button class="button button-primary" data-create="borrower" type="button"><span aria-hidden="true">+</span> Add borrower</button></div></div>
+        <section class="panel table-panel"><div class="section-heading"><div><p class="eyebrow">PEOPLE</p><h2>Borrower directory</h2></div><span class="count-label" id="borrowers-count">0 people</span></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Student ID</th><th>Email</th><th>Phone</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="borrowers-table"></tbody></table></div></section>
+      </section>
+
+      <section class="page-view" id="borrowings-view" aria-labelledby="page-title" hidden>
+        <div class="list-toolbar"><p>Review loans, process returns, and keep transaction history.</p><div class="toolbar-actions"><label class="search-box"><span aria-hidden="true">⌕</span><input id="borrowings-search" type="search" placeholder="Search transactions" aria-label="Search transactions"></label><button class="button button-primary" data-create="borrowing" type="button"><span aria-hidden="true">+</span> New borrowing</button></div></div>
+        <section class="panel table-panel"><div class="section-heading"><div><p class="eyebrow">TRANSACTION LOG</p><h2>Borrowing history</h2></div><span class="count-label" id="borrowings-count">0 records</span></div><div class="table-wrap"><table><thead><tr><th>Borrower</th><th>Equipment</th><th>Borrow date</th><th>Due date</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="borrowings-table"></tbody></table></div></section>
+      </section>
+      <footer class="page-footer"><span>LabBorrow</span><span>Inventory data resets when the server restarts.</span></footer>
+    </main>
+  </div>
+
+  <dialog class="record-dialog" id="record-dialog" aria-labelledby="dialog-title">
+    <form id="record-form" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow" id="dialog-eyebrow">RECORD</p><h2 id="dialog-title">Add record</h2></div><button class="close-button" type="button" data-close-dialog aria-label="Close dialog">×</button></div>
+      <div class="form-fields" id="form-fields"></div>
+      <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>Cancel</button><button class="button button-primary" type="submit" id="dialog-submit">Save record</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
